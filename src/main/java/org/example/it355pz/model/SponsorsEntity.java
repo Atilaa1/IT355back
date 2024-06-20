@@ -16,6 +16,14 @@ public class SponsorsEntity {
     @Basic
     @Column(name = "link")
     private String link;
+    public SponsorsEntity() {
+    }
+
+    // Parameterized constructor
+    public SponsorsEntity(String img, String link) {
+        this.img = img;
+        this.link = link;
+    }
 
     public int getId() {
         return id;

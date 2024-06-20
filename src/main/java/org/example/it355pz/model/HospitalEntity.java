@@ -4,8 +4,6 @@ import javax.persistence.*;
 import java.util.Objects;
 
 
-
-
 @Entity
 @Table(name = "hospital", schema = "it355pz", catalog = "")
 public class HospitalEntity {
@@ -26,6 +24,17 @@ public class HospitalEntity {
     @Column(name = "capacity")
     private Integer capacity;
 
+    // Default constructor
+    public HospitalEntity() {
+    }
+
+    // Parameterized constructor
+    public HospitalEntity(String name, String location, String img, Integer capacity) {
+        this.name = name;
+        this.location = location;
+        this.img = img;
+        this.capacity = capacity;
+    }
     public int getId() {
         return id;
     }

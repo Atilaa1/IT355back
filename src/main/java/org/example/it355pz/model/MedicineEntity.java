@@ -25,6 +25,17 @@ public class MedicineEntity {
     @Column(name = "img")
     private String img;
 
+    public MedicineEntity() {
+    }
+
+    // Parameterized constructor
+    public MedicineEntity(String name, String company, String dose, String description, String img) {
+        this.name = name;
+        this.company = company;
+        this.dose = dose;
+        this.description = description;
+        this.img = img;
+    }
     public int getId() {
         return id;
     }

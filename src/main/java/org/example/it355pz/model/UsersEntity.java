@@ -1,13 +1,22 @@
 package org.example.it355pz.model;
+/*
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+*/
+import org.example.it355pz.model.enums.RoleType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Objects;
-
+import java.util.Collection;
+import java.util.List;
 
 
 @Entity
 @Table(name = "users", schema = "it355pz", catalog = "")
-public class UsersEntity  {
+public class UsersEntity  implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -23,11 +32,18 @@ public class UsersEntity  {
     private String mail;
     @Basic
     @Column(name = "role")
-    private String role;
-    @Basic
-    @Column(name = "enabled")
-    private Integer enabled;
+    private RoleType role;
 
+    public UsersEntity() {
+    }
+
+    // Parameterized constructor
+    public UsersEntity(String username, String password, String mail, RoleType role) {
+        this.username = username;
+        this.password = password;
+        this.mail = mail;
+        this.role = role;
+    }
     public int getId() {
         return id;
     }
@@ -40,8 +56,33 @@ public class UsersEntity  {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     public String getPassword() {
@@ -59,34 +100,15 @@ public class UsersEntity  {
     public void setMail(String mail) {
         this.mail = mail;
     }
-
-    public String getRole() {
+    public RoleType getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleType role) {
         this.role = role;
     }
 
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UsersEntity that = (UsersEntity) o;
-        return id == that.id && enabled == that.enabled && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(mail, that.mail) && Objects.equals(role, that.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, password, mail, role, enabled);
-    }
-
-    public int getEnabled() {
-        return enabled;
-    }
-    public void setEnabled(Integer enabled) {
-        this.enabled = enabled;
-    }
 }
+
