@@ -2,7 +2,9 @@ package org.example.it355pz.model;
 
 
 
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
 @Entity

@@ -1,22 +1,22 @@
 package org.example.it355pz.model;
-/*
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-*/
+
+import lombok.Getter;
+import lombok.Setter;
 import org.example.it355pz.model.enums.RoleType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "users", schema = "it355pz", catalog = "")
-public class UsersEntity  implements UserDetails {
+public class UsersEntity  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -30,19 +30,21 @@ public class UsersEntity  implements UserDetails {
     @Basic
     @Column(name = "mail")
     private String mail;
-    @Basic
-    @Column(name = "role")
-    private RoleType role;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
     public UsersEntity() {
     }
 
     // Parameterized constructor
-    public UsersEntity(String username, String password, String mail, RoleType role) {
+    public UsersEntity(String username, String password, String mail) {
         this.username = username;
         this.password = password;
         this.mail = mail;
-        this.role = role;
+
     }
     public int getId() {
         return id;
@@ -56,34 +58,13 @@ public class UsersEntity  implements UserDetails {
         return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
 
     public String getPassword() {
         return password;
@@ -100,13 +81,7 @@ public class UsersEntity  implements UserDetails {
     public void setMail(String mail) {
         this.mail = mail;
     }
-    public RoleType getRole() {
-        return role;
-    }
 
-    public void setRole(RoleType role) {
-        this.role = role;
-    }
 
 
 
