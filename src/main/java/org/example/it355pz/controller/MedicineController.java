@@ -4,6 +4,7 @@ import org.example.it355pz.model.MedicineEntity;
 import org.example.it355pz.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,14 +33,14 @@ public class MedicineController {
     }
 
     @PutMapping("/{id}")
-   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+ @PreAuthorize("hasRole('ROLE_ADMIN')")
     public MedicineEntity updateMedicine(@PathVariable int id, @RequestBody MedicineEntity medicine) {
         medicine.setId(id);
         return medicineService.saveMedicine(medicine);
     }
 
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteMedicine(@PathVariable int id) {
         medicineService.deleteMedicine(id);
     }

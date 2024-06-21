@@ -4,6 +4,7 @@ import org.example.it355pz.model.HospitalEntity;
 import org.example.it355pz.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,20 +27,20 @@ public class HospitalController {
     }
 
     @PostMapping
-   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
     public HospitalEntity createHospital(@RequestBody HospitalEntity hospital) {
         return hospitalService.saveHospital(hospital);
     }
 
     @PutMapping("/{id}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public HospitalEntity updateHospital(@PathVariable int id, @RequestBody HospitalEntity hospital) {
         hospital.setId(id);
         return hospitalService.saveHospital(hospital);
     }
 
     @DeleteMapping("/{id}")
-   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteHospital(@PathVariable int id) {
         hospitalService.deleteHospital(id);
     }

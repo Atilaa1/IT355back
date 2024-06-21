@@ -47,7 +47,7 @@ class DoctorsControllerTest {
 
         when(doctorsService.getAllDoctors()).thenReturn(doctorsList);
 
-        mockMvc.perform(get("/doctors"))
+        mockMvc.perform(get("/api/doctors"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("Doctor A"))
@@ -70,7 +70,7 @@ class DoctorsControllerTest {
 
         when(doctorsService.getDoctorById(1)).thenReturn(doctor);
 
-        mockMvc.perform(get("/doctors/1"))
+        mockMvc.perform(get("/api/doctors/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Doctor A"))
@@ -88,7 +88,7 @@ class DoctorsControllerTest {
 
         when(doctorsService.saveDoctor(any(DoctorsEntity.class))).thenReturn(doctor);
 
-        mockMvc.perform(post("/doctors")
+        mockMvc.perform(post("/api/doctors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Doctor A\", \"surname\":\"Surname A\", \"speciality\":\"Speciality A\", \"img\":\"imgA.jpg\"}"))
                 .andExpect(status().isOk())
@@ -108,7 +108,7 @@ class DoctorsControllerTest {
 
         when(doctorsService.saveDoctor(any(DoctorsEntity.class))).thenReturn(doctor);
 
-        mockMvc.perform(put("/doctors/1")
+        mockMvc.perform(put("/api/doctors/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Updated Doctor A\", \"surname\":\"Updated Surname A\", \"speciality\":\"Updated Speciality A\", \"img\":\"updatedImgA.jpg\"}"))
                 .andExpect(status().isOk())
@@ -125,7 +125,7 @@ class DoctorsControllerTest {
     void deleteDoctor() throws Exception {
         doNothing().when(doctorsService).deleteDoctor(1);
 
-        mockMvc.perform(delete("/doctors/1"))
+        mockMvc.perform(delete("/api/doctors/1"))
                 .andExpect(status().isOk());
 
         verify(doctorsService, times(1)).deleteDoctor(1);

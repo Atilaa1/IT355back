@@ -46,7 +46,7 @@ class HospitalControllerTest {
 
         when(hospitalService.getAllHospitals()).thenReturn(hospitalsList);
 
-        mockMvc.perform(get("/hospitals"))
+        mockMvc.perform(get("/api/hospitals"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("Hospital A"))
@@ -69,7 +69,7 @@ class HospitalControllerTest {
 
         when(hospitalService.getHospitalById(1)).thenReturn(hospital);
 
-        mockMvc.perform(get("/hospitals/1"))
+        mockMvc.perform(get("/api/hospitals/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Hospital A"))
@@ -87,7 +87,7 @@ class HospitalControllerTest {
 
         when(hospitalService.saveHospital(any(HospitalEntity.class))).thenReturn(hospital);
 
-        mockMvc.perform(post("/hospitals")
+        mockMvc.perform(post("/api/hospitals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Hospital A\", \"location\":\"Location A\", \"img\":\"imgA.jpg\", \"capacity\":100}"))
                 .andExpect(status().isOk())
@@ -107,7 +107,7 @@ class HospitalControllerTest {
 
         when(hospitalService.saveHospital(any(HospitalEntity.class))).thenReturn(hospital);
 
-        mockMvc.perform(put("/hospitals/1")
+        mockMvc.perform(put("/api/hospitals/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Updated Hospital A\", \"location\":\"Updated Location A\", \"img\":\"updatedImgA.jpg\", \"capacity\":150}"))
                 .andExpect(status().isOk())
@@ -124,7 +124,7 @@ class HospitalControllerTest {
     void deleteHospital() throws Exception {
         doNothing().when(hospitalService).deleteHospital(1);
 
-        mockMvc.perform(delete("/hospitals/1"))
+        mockMvc.perform(delete("/api/hospitals/1"))
                 .andExpect(status().isOk());
 
         verify(hospitalService, times(1)).deleteHospital(1);

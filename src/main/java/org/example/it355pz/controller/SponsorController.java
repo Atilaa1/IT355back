@@ -4,6 +4,7 @@ import org.example.it355pz.model.SponsorsEntity;
 import org.example.it355pz.service.SponsorService;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,14 +33,14 @@ public class SponsorController {
     }
 
     @PutMapping("/{id}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public SponsorsEntity updateSponsor(@PathVariable int id, @RequestBody SponsorsEntity sponsor) {
         sponsor.setId(id);
         return sponsorsService.saveSponsor(sponsor);
     }
 
     @DeleteMapping("/{id}")
-   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteSponsor(@PathVariable int id) {
         sponsorsService.deleteSponsor(id);
     }

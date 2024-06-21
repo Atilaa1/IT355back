@@ -45,7 +45,7 @@ class MedicineControllerTest {
 
         when(medicineService.getAllMedicines()).thenReturn(medicinesList);
 
-        mockMvc.perform(get("/medicines"))
+        mockMvc.perform(get("/api/medicines"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("Medicine A"))
@@ -70,7 +70,7 @@ class MedicineControllerTest {
 
         when(medicineService.getMedicineById(1)).thenReturn(medicine);
 
-        mockMvc.perform(get("/medicines/1"))
+        mockMvc.perform(get("/api/medicines/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Medicine A"))
@@ -89,7 +89,7 @@ class MedicineControllerTest {
 
         when(medicineService.saveMedicine(any(MedicineEntity.class))).thenReturn(medicine);
 
-        mockMvc.perform(post("/medicines")
+        mockMvc.perform(post("/api/medicines")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Medicine A\", \"company\":\"Company A\", \"dose\":\"Dose A\", \"description\":\"Description A\", \"img\":\"imgA.jpg\"}"))
                 .andExpect(status().isOk())
@@ -110,7 +110,7 @@ class MedicineControllerTest {
 
         when(medicineService.saveMedicine(any(MedicineEntity.class))).thenReturn(medicine);
 
-        mockMvc.perform(put("/medicines/1")
+        mockMvc.perform(put("/api/medicines/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Updated Medicine A\", \"company\":\"Updated Company A\", \"dose\":\"Updated Dose A\", \"description\":\"Updated Description A\", \"img\":\"updatedImgA.jpg\"}"))
                 .andExpect(status().isOk())
@@ -128,7 +128,7 @@ class MedicineControllerTest {
     void deleteMedicine() throws Exception {
         doNothing().when(medicineService).deleteMedicine(1);
 
-        mockMvc.perform(delete("/medicines/1"))
+        mockMvc.perform(delete("/api/medicines/1"))
                 .andExpect(status().isOk());
 
         verify(medicineService, times(1)).deleteMedicine(1);

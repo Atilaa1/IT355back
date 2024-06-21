@@ -46,7 +46,7 @@ class SponsorControllerTest {
 
         when(sponsorService.getAllSponsors()).thenReturn(sponsorsList);
 
-        mockMvc.perform(get("/sponsors"))
+        mockMvc.perform(get("/api/sponsors"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].img").value("img1.jpg"))
@@ -65,7 +65,7 @@ class SponsorControllerTest {
 
         when(sponsorService.getSponsorById(1)).thenReturn(sponsor);
 
-        mockMvc.perform(get("/sponsors/1"))
+        mockMvc.perform(get("/api/sponsors/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.img").value("img1.jpg"))
@@ -81,7 +81,7 @@ class SponsorControllerTest {
 
         when(sponsorService.saveSponsor(any(SponsorsEntity.class))).thenReturn(sponsor);
 
-        mockMvc.perform(post("/sponsors")
+        mockMvc.perform(post("/api/sponsors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"img\":\"img1.jpg\", \"link\":\"http://link1.com\"}"))
                 .andExpect(status().isOk())
@@ -99,7 +99,7 @@ class SponsorControllerTest {
 
         when(sponsorService.saveSponsor(any(SponsorsEntity.class))).thenReturn(sponsor);
 
-        mockMvc.perform(put("/sponsors/1")
+        mockMvc.perform(put("/api/sponsors/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"img\":\"updatedImg.jpg\", \"link\":\"http://updatedLink.com\"}"))
                 .andExpect(status().isOk())
@@ -114,7 +114,7 @@ class SponsorControllerTest {
     void deleteSponsor() throws Exception {
         doNothing().when(sponsorService).deleteSponsor(1);
 
-        mockMvc.perform(delete("/sponsors/1"))
+        mockMvc.perform(delete("/api/sponsors/1"))
                 .andExpect(status().isOk());
 
         verify(sponsorService, times(1)).deleteSponsor(1);
